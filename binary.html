@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="conversionApp">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Binary Number System Converter</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+    <style>
+        body {
+    font-family: 'Roboto', sans-serif;
+    background-image: url(https://img.freepik.com/premium-photo/light-pink-purple-soft-background_833768-807.jpg); /* Replace with your image path */
+    background-size: cover; /* Cover the entire body */
+    background-repeat: no-repeat; /* Prevent repeating */
+    background-position: center; /* Center the image */
+    color: #f0f0f0;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+    opacity: 0.9; /* Optional: Makes background slightly transparent */
+}
+
+        header {
+            background-color:  #6a1b9a;
+            color: white;
+            width: 100%;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+            position: sticky;
+            top: 0;
+        }
+
+        header img {
+            max-width: 100px;
+        }
+
+        h1 {
+            margin: 10px 0;
+            font-size: 32px;
+            text-transform: uppercase;
+        }
+
+        nav {
+            display: flex;
+            justify-content: center;
+            background-color: #9c27b0;
+            width: 100%;
+            padding: 10px 0;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            margin-bottom: 30px;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            margin: 0 15px;
+            padding: 10px 20px;
+            font-size: 18px;
+            border-radius: 25px;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+
+        nav a:hover {
+            background-color: #f4f7fc;
+            color: #6a1b9a;
+            transform: scale(1.1);
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+            max-width: 900px;
+            margin-top: 30px;
+        }
+
+        
+
+        .card {
+            background-color: white;
+            width: 50%;
+            margin: 20px;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        .card h2 {
+            font-size: 24px;
+            color: #2e2d59;
+        }
+
+        .card p {
+            font-size: 18px;
+            margin-bottom: 20px;
+        }
+
+        label, select, p, input {
+            display: block;
+            margin: 10px 0;
+            font-size: 16px;
+            width: 100%;
+            max-width: 300px;
+            margin: 10px auto;
+            color: black;
+        }
+
+        input, select {
+            padding: 10px;
+            font-size: 16px;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+        }
+
+        .images-container {
+            display: flex;
+            justify-content: center;
+            margin-top: 30px;
+            gap: 20px;
+        }
+
+        .image {
+            max-width: 200px;
+            border-radius: 12px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        footer {
+            background-color: #2e2d59;
+            color: white;
+            width: 100%;
+            padding: 20px;
+            text-align: center;
+            margin-top: auto;
+            box-shadow: 0 -4px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        footer a {
+            color: #ffcccb;
+            text-decoration: none;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
+
+    </style>
+</head>
+<body ng-controller="BinaryConverterController">
+
+    <header>
+        <h1>Binary Number System Converter</h1>
+    </header>
+
+    <nav>
+        <a href="index.html">Home</a>
+        <a href="basic.html">Basic Calc</a>
+        <a href="scientific.html">Scientific Calc</a>
+        <a href="conversion.html">Converter</a>
+        <a href="quiz.html">Quiz</a>
+        
+    </nav>
+
+
+        <!-- Converter Section -->
+        <div class="card">
+            <h2>Convert Between Number Systems</h2>
+            <label for="numberValue">Number:</label>
+            <input type="text" id="numberValue" ng-model="numberValue" placeholder="Enter number">
+
+            <label for="baseFrom">From Base:</label>
+            <select id="baseFrom" ng-model="baseFrom">
+                <option value="binary">Binary</option>
+                <option value="decimal">Decimal</option>
+                <option value="octal">Octal</option>
+                <option value="hexadecimal">Hexadecimal</option>
+            </select>
+
+            <label for="baseTo">To Base:</label>
+            <select id="baseTo" ng-model="baseTo">
+                <option value="binary">Binary</option>
+                <option value="decimal">Decimal</option>
+                <option value="octal">Octal</option>
+                <option value="hexadecimal">Hexadecimal</option>
+            </select>
+
+            <p id="strong">Converted Number: {{ convertNumberSystem(numberValue, baseFrom, baseTo) }}</p>
+        </div>
+
+        
+        
+    
+    <script>
+        angular.module('conversionApp', [])
+            .controller('BinaryConverterController', function($scope) {
+                $scope.convertNumberSystem = function(value, fromBase, toBase) {
+                    let decimalValue;
+
+                    // Convert input to decimal based on the fromBase
+                    switch (fromBase) {
+                        case 'binary':
+                            decimalValue = parseInt(value, 2);
+                            break;
+                        case 'decimal':
+                            decimalValue = parseFloat(value);
+                            break;
+                        case 'octal':
+                            decimalValue = parseInt(value, 8);
+                            break;
+                        case 'hexadecimal':
+                            decimalValue = parseInt(value, 16);
+                            break;
+                        default:
+                            return 'Invalid base';
+                    }
+
+                    // Convert decimal to the desired toBase
+                    switch (toBase) {
+                        case 'binary':
+                            return decimalValue.toString(2);
+                        case 'decimal':
+                            return decimalValue;
+                        case 'octal':
+                            return decimalValue.toString(8);
+                        case 'hexadecimal':
+                            return decimalValue.toString(16).toUpperCase();
+                        default:
+                            return 'Invalid base';
+                    }
+                };
+            });
+    </script>
+</body>
+</html>

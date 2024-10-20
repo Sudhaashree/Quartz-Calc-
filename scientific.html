@@ -1,0 +1,248 @@
+
+<!DOCTYPE html>
+<html lang="en" ng-app="calculatorApp">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scientific Calculator</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-image: url(https://img.freepik.com/premium-photo/light-pink-purple-soft-background_833768-807.jpg);
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center;
+            color: #f0f0f0;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            opacity: 0.9;
+        }
+
+        header {
+            background-color: #6a1b9a;
+            color: #f4f7fc;
+            width: 100%;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+            position: sticky;
+            top: 0;
+        }
+
+        h1 {
+            margin: 0;
+            font-size: 36px;
+            font-weight: bold;
+        }
+
+        nav {
+            display: flex;
+            justify-content: center;
+            background-color: #9c27b0;
+            width: 100%;
+            padding: 15px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        nav a {
+            color: #fff;
+            text-decoration: none;
+            margin: 0 20px;
+            padding: 10px 20px;
+            border-radius: 30px;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            font-size: 16px;
+        }
+
+        nav a:hover {
+            background-color: #f4f7fc;
+            color: #6a1b9a;
+            transform: scale(1.1);
+        }
+
+        #calculator {
+            padding: 30px;
+            margin: 30px;
+            text-align: center;
+        }
+
+        #display {
+            width: 100%;
+            padding: 15px;
+            font-size: 28px;
+            margin-bottom: 15px;
+            border: none;
+            background: #ecf0f1;
+            color: #2c3e50;
+            text-align: right;
+            box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+        }
+
+        .button {
+            padding: 15px 25px;
+            margin: 5px;
+            font-size: 20px;
+            border: none;
+            border-radius: 5px;
+            background: #3498db;
+            color: white;
+            cursor: pointer;
+            transition: background 0.3s, transform 0.1s;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+
+        .button:hover {
+            background: #2980b9;
+            transform: scale(1.05);
+        }
+
+        .erase-button {
+            background: #e74c3c;
+        }
+
+        .erase-button:hover {
+            background: #c0392b;
+        }
+
+        #solution-container {
+            width: 80%;
+            margin-top: 20px;
+            margin-bottom: 20px;
+            background: #ffffff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            color: #2c3e50;
+            text-align: center;
+        }
+
+        footer {
+            margin-top: 40px;
+            padding: 20px;
+            background: rgba(255, 192, 203, 0.8);
+            color: #2c3e50;
+            text-align: center;
+            border-radius: 15px;
+            width: 100%;
+        }
+    </style>
+</head>
+<body ng-controller="CalculatorController">
+
+    <header>
+        <h1>Scientific Calculator</h1>
+    </header>
+
+    <nav>
+        <a href="index.html">Home</a>
+        <a href="basic.html">Normal Calculator</a>
+        <a href="conversion.html">Unit Conversion</a>
+        <a href="binary.html">Number System</a>
+        <a href="quiz.html">Math Quiz</a>
+    </nav>
+
+    <div id="calculator">
+        <input type="text" id="display" ng-model="display" readonly>
+        <div class="row" style="display: inline-block;">
+            <button class="button" ng-click="press('0')">0</button>
+            <button class="button" ng-click="press('1')">1</button>
+            <button class="button" ng-click="press('2')">2</button>
+            <button class="button" ng-click="press('3')">3</button>
+            <button class="button" ng-click="press('4')">4</button>
+            <button class="button" ng-click="press('5')">5</button>
+            <button class="button" ng-click="press('6')">6</button>
+            <button class="button" ng-click="press('7')">7</button>
+            <button class="button" ng-click="press('8')">8</button>
+            <button class="button" ng-click="press('9')">9</button>
+        </div>
+        <div class="row" style="display: inline-block;">
+            <button class="button" ng-click="press('+')">+</button>
+            <button class="button" ng-click="press('-')">-</button>
+            <button class="button" ng-click="press('*')">*</button>
+            <button class="button" ng-click="press('/')">/</button>
+            <button class="button" ng-click="press('(')">(</button>
+            <button class="button" ng-click="press(')')">)</button>
+            <button class="button" ng-click="press('^')">^</button>
+            <button class="button" ng-click="press('.')">.</button>
+            <button class="button erase-button" ng-click="clearDisplay()">C</button>
+        </div>
+        <div class="row" style="display: inline-block;">
+            <button class="button" ng-click="press('sin(')">sin</button>
+            <button class="button" ng-click="press('cos(')">cos</button>
+            <button class="button" ng-click="press('tan(')">tan</button>
+            <button class="button" ng-click="press('log(')">log</button>
+            <button class="button" ng-click="press('sqrt(')">√</button>
+        </div>
+        <div class="row" style="display: inline-block;">
+            <button class="button" ng-click="calculate()">=</button>
+        </div>
+    </div>
+
+    <!-- Solution Container -->
+    <div id="solution-container">
+        <h2>Solution:</h2>
+        <h4>Expression:</h4>
+        <p>{{ expression }}</p>
+        <h4>Steps:</h4>
+        <p ng-repeat="step in steps track by $index">{{ step }}</p>
+        <h4>Final Result:</h4>
+        <p>{{ display }}</p>
+    </div>
+
+    <script>
+        angular.module('calculatorApp', [])
+            .controller('CalculatorController', ['$scope', function($scope) {
+                $scope.display = '';
+                $scope.steps = [];
+                $scope.expression = '';
+
+                // Capture each button press
+                $scope.press = function(val) {
+                    $scope.display += val;
+                    $scope.expression += val;
+                };
+
+                // Evaluate the expression step by step
+                $scope.calculate = function() {
+                    let expression = $scope.display;
+                    $scope.steps = []; // Clear previous steps
+
+                    // Replace symbols with proper functions
+                    expression = expression.replace(/√/g, 'Math.sqrt');
+                    expression = expression.replace(/log/g, 'Math.log10');
+                    expression = expression.replace(/ln/g, 'Math.log');
+                    expression = expression.replace(/sin/g, 'Math.sin');
+                    expression = expression.replace(/cos/g, 'Math.cos');
+                    expression = expression.replace(/tan/g, 'Math.tan');
+                    expression = expression.replace(/\^/g, '**');
+
+                    // Store the expression before evaluation
+                    $scope.expression = $scope.display;
+
+                    try {
+                        // Evaluate step by step (simulate)
+                        let result = eval(expression);
+                        $scope.steps.push(`Evaluating: ${$scope.expression}`);
+
+                        $scope.display = result; // Show the final result
+                    } catch (e) {
+                        $scope.display = 'Error';
+                        $scope.steps.push('Error in calculation.');
+                    }
+                };
+
+                // Clear the display and reset steps
+                $scope.clearDisplay = function() {
+                    $scope.display = '';
+                    $scope.steps = [];
+                    $scope.expression = '';
+                };
+            }]);
+    </script>
+</body>
+</html>

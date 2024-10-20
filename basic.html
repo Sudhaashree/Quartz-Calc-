@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="calculatorApp">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Basic Calculator - Quartz Calc</title>
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-image: url(https://img.freepik.com/premium-photo/light-pink-purple-soft-background_833768-807.jpg); 
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center;
+            color: #f0f0f0;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        header {
+            background-color: #6a1b9a;
+            color: #ffffff;
+            padding: 20px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+        }
+
+        h1 {
+            margin: 0;
+            font-size: 2.5em;
+            text-align: center;
+        }
+
+        nav {
+            display: flex;
+            justify-content: center;
+            background-color: #9c27b0;
+            width: 100%;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            margin-top: 100px;
+            padding: 20px;
+        }
+
+        nav a {
+            color: #fff;
+            text-decoration: none;
+            padding: 10px 20px;
+            border-radius: 30px;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            font-size: 16px;
+        }
+
+        nav a:hover {
+            background-color: #f4f7fc;
+            color: #6a1b9a;
+            transform: scale(1.1);
+        }
+
+        input {
+            width: 90%;
+            height: 70px;
+            font-size: 32px;
+            text-align: right;
+            margin: 30px;
+            background-color: #ffffff;
+            color: #333;
+            border: none;
+            border-radius: 10px;
+            padding: 10px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .solution {
+            width: 90%;
+            height: 50px;
+            font-size: 28px;
+            text-align: right;
+            margin: 10px;
+            background-color: #e9ecef;
+            color: #333;
+            border: none;
+            border-radius: 10px;
+            padding: 10px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        button {
+            width: 80px;
+            height: 70px;
+            font-size: 28px;
+            background-color: #ffc107;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            margin: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.1s;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        button:hover {
+            background-color: #e0a800;
+        }
+
+        button:active {
+            transform: scale(0.95);
+        }
+
+        #erase {
+            background-color: #dc3545;
+        }
+
+        #erase:hover {
+            background-color: #c82333;
+        }
+
+        .buttons {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        footer {
+            margin-top: 40px;
+            padding: 20px;
+            background-color: #007bff;
+            color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            position: fixed;
+            width: calc(100% - 40px);
+            bottom: 10px;
+        }
+    </style>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+</head>
+<body ng-controller="CalculatorController">
+
+    <header>
+        <h1>Basic Calculator</h1>
+    </header>
+
+    <nav>
+        <a href="index.html">Home</a>
+        <a href="scientific.html">Scientific Calculator</a>
+        <a href="conversion.html">Unit Conversion</a>
+        <a href="binary.html">Number System</a>
+        <a href="quiz.html">Math Quiz</a>
+    </nav>
+
+    <!-- Input display -->
+    <input type="text" ng-model="display" readonly>
+
+    <!-- Solution container -->
+    <div class="solution" ng-bind="result || 'Solution here'"></div>
+
+    <div class="buttons">
+        <button ng-click="addToDisplay('0')">0</button>
+        <button ng-click="addToDisplay('1')">1</button>
+        <button ng-click="addToDisplay('2')">2</button>
+        <button ng-click="addToDisplay('3')">3</button>
+        <button ng-click="addToDisplay('4')">4</button>
+        <button ng-click="addToDisplay('5')">5</button>
+        <button ng-click="addToDisplay('6')">6</button>
+        <button ng-click="addToDisplay('7')">7</button>
+        <button ng-click="addToDisplay('8')">8</button>
+        <button ng-click="addToDisplay('9')">9</button>
+        <button ng-click="addToDisplay('+')">+</button>
+        <button ng-click="addToDisplay('-')">-</button>
+        <button ng-click="addToDisplay('*')">*</button>
+        <button ng-click="addToDisplay('/')">/</button>
+        <button ng-click="calculate()">=</button>
+        <button ng-click="addToDisplay('.')">.</button>
+        <button id="erase" style="grid-column: span 4;" ng-click="clearDisplay()">Clear</button>
+    </div>
+
+    <script>
+        angular.module('calculatorApp', [])
+            .controller('CalculatorController', function($scope) {
+                $scope.display = '';
+                $scope.result = '';
+
+                $scope.addToDisplay = function(value) {
+                    $scope.display += value;
+                };
+
+                $scope.calculate = function() {
+                    try {
+                        $scope.result = eval($scope.display);
+                    } catch (e) {
+                        $scope.result = 'Error';
+                    }
+                };
+
+                $scope.clearDisplay = function() {
+                    $scope.display = '';
+                    $scope.result = '';
+                };
+            });
+    </script>
+
+</body>
+</html>

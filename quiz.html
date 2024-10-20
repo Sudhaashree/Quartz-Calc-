@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="quizApp">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Math Quiz Challenge</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-image: url(https://img.freepik.com/premium-photo/light-pink-purple-soft-background_833768-807.jpg);
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center;
+            color: #f0f0f0;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            opacity: 0.9;
+        }
+
+        header {
+            background-color:  #6a1b9a;
+            color: white;
+            width: 100%;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+            position: sticky;
+            top: 0;
+        }
+
+        header h1 {
+            margin: 10px 0;
+            font-size: 32px;
+            text-transform: uppercase;
+        }
+
+        nav {
+            display: flex;
+            justify-content: center;
+            background-color: #9c27b0;
+            width: 100%;
+            padding: 15px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        nav a {
+            color: #fff;
+            text-decoration: none;
+            margin: 0 20px;
+            padding: 10px 20px;
+            border-radius: 30px;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            font-size: 16px;
+        }
+
+        nav a:hover {
+            background-color: #f4f7fc;
+            color: #6a1b9a;
+            transform: scale(1.1);
+        }
+
+        .quiz-container {
+            max-width: 800px;
+            background-color: #fff;
+            padding: 30px;
+            margin: 20px;
+            border-radius: 15px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            width: 100%;
+        }
+
+        .quiz-container h2 {
+            text-align: center;
+            font-size: 26px;
+            color: #2e2d59;
+            margin-bottom: 30px;
+        }
+
+        .question-container {
+            background-color: #f0f8ff;
+            border: 1px solid #d6eaff;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .question-container h3 {
+            font-size: 18px;
+            color: #333;
+            margin-bottom: 15px;
+        }
+
+        .options label {
+            display: block;
+            font-size: 16px;
+            margin-bottom: 10px;
+            cursor: pointer;
+        }
+
+        .options label:hover {
+            color: #1e90ff;
+        }
+
+        .options input {
+            margin-right: 10px;
+        }
+
+        button {
+            display: block;
+            width: 100%;
+            padding: 15px;
+            font-size: 18px;
+            border: none;
+            border-radius: 50px;
+            background-color: #1e90ff;
+            color: white;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            margin-top: 20px;
+        }
+
+        button:hover {
+            background-color: #00bfff;
+        }
+
+        #result {
+            font-size: 22px;
+            margin-top: 20px;
+            color: #333;
+            text-align: center;
+        }
+
+        .wrong {
+            color: red; /* Red color for wrong answers */
+        }
+
+        footer {
+            background-color: #2e2d59;
+            color: white;
+            width: 100%;
+            padding: 20px;
+            text-align: center;
+            margin-top: auto;
+            box-shadow: 0 -4px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        footer p {
+            margin: 0;
+        }
+
+        @media (max-width: 768px) {
+            .quiz-container {
+                margin: 30px 20px;
+            }
+
+            header h1 {
+                font-size: 24px;
+            }
+
+            nav a {
+                font-size: 14px;
+                padding: 8px 15px;
+            }
+
+            button {
+                font-size: 16px;
+            }
+        }
+    </style>
+</head>
+<body ng-controller="quizController">
+    <header>
+        <h1>Math Quiz Challenge</h1>
+    </header>
+
+    <nav>
+        <a href="index.html">Home</a>
+        <a href="basic.html">Basic Calc</a>
+        <a href="scientific.html">Scientific Calc</a>
+        <a href="conversion.html">Converter</a>
+        <a href="binary.html">Binary</a>
+    </nav>
+
+    <div class="quiz-container">
+        <h2>Test Your Math Skills</h2>
+
+        <form>
+            <div class="question-container" ng-repeat="q in questions">
+                <h3>{{ q.question }}</h3>
+                <div class="options">
+                    <label ng-repeat="option in q.options">
+                        <input type="radio" ng-model="selectedOptions[$parent.$index]" value="{{ option }}">
+                        {{ option }}
+                        <span ng-if="selectedOptions[$parent.$index] !== undefined && selectedOptions[$parent.$index] !== q.answer && selectedOptions[$parent.$index] === option" class="wrong">*</span>
+                    </label>
+                </div>
+            </div>
+        </form>
+
+        <button ng-click="submitQuiz()">Submit Quiz</button>
+        <div id="result" ng-if="quizSubmitted">
+            <!-- Display score once submitted -->
+            Your Score: {{ score }}/{{ questions.length }} <br>
+            <span ng-if="score > 5">Great job! You passed!</span>
+            <span ng-if="score <= 5">Keep practicing to improve your score!</span>
+        </div>
+    </div>
+
+    <script>
+        var app = angular.module('quizApp', []);
+        
+        app.controller('quizController', function($scope, $http) {
+    // Quiz questions
+    $scope.questions = [
+        { question: "1. What is 2 + 2?", options: ["3", "4", "5", "6"], answer: "4" },
+        { question: "2. What is the square root of 16?", options: ["2", "3", "4", "5"], answer: "4" },
+        { question: "3. What is 5 x 6?", options: ["30", "11", "60", "20"], answer: "30" },
+        { question: "4. What is 15 / 3?", options: ["3", "5", "7", "9"], answer: "5" },
+        { question: "5. What is the value of Pi (approx)?", options: ["2.14", "3.14", "4.14", "5.14"], answer: "3.14" },
+        { question: "6. What is 9 squared?", options: ["81", "72", "99", "90"], answer: "81" },
+        { question: "7. What is the cube root of 27?", options: ["3", "6", "9", "12"], answer: "3" },
+        { question: "8. What is 100 - 45?", options: ["55", "65", "75", "85"], answer: "55" },
+        { question: "9. What is 7 x 8?", options: ["48", "56", "64", "72"], answer: "56" },
+        { question: "10. What is 20% of 200?", options: ["20", "40", "60", "80"], answer: "40" }
+    ];
+
+    // Initialize empty array to track user's selected answers
+    $scope.selectedOptions = [];
+    // Initialize score
+    $scope.score = 0;
+    // Track if quiz is submitted
+    $scope.quizSubmitted = false;
+
+    // Function to calculate the quiz score and submit it
+    $scope.submitQuiz = function() {
+        // Reset score to 0 before calculation
+        $scope.score = 0;
+        $scope.quizSubmitted = true; // Set quiz as submitted
+
+        // Loop through each question
+        $scope.questions.forEach(function(question, index) {
+            // Check if selected answer matches the correct answer
+            if ($scope.selectedOptions[index] === question.answer) {
+                // Increment score for each correct answer
+                $scope.score++;
+            }
+        });
+
+        // Prompt for name and send score to backend
+        const userName = prompt("Please enter your name:");
+        if (userName) {
+            $http.post('http://localhost:6001/submit-score', { name: userName, score: $scope.score })
+                .then(function(response) {
+                    alert(response.data.message);
+                })
+                .catch(function(error) {
+                    alert('Error: ' + error.data.error);
+                });
+        }
+    };
+});
+
+    </script>
+   
+</body>
+</html>

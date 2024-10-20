@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quartz Calc</title>
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-image: url('https://img.freepik.com/premium-photo/light-pink-purple-soft-background_833768-807.jpg'); /* Background Image */
+            background-size: cover; 
+            background-repeat: no-repeat; 
+            background-position: center; 
+            color: #ffffff;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        header {
+            background-color: rgba(106, 27, 154, 0.8); /* Semi-transparent Deep Purple */
+            color: #f4f7fc;
+            width: 100%;
+            padding: 20px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: sticky;
+            top: 0;
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 30px;
+            letter-spacing: 1px;
+        }
+
+        nav {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        nav a {
+            color: #ffffff;
+            padding: 10px 15px;
+            text-decoration: none;
+            background-color: #6a1b9a;
+            border-radius: 20px;
+            transition: background-color 0.3s ease;
+        }
+
+        nav a:hover {
+            background-color: #ffcccb;
+            color: #333;
+        }
+
+        .welcome {
+            text-align: center;
+            padding: 30px;
+            background-color: rgba(156, 39, 176, 0.9); /* Lighter Purple */
+            width: 100%;
+            border-radius: 0 0 25px 25px;
+        }
+
+        .welcome h2 {
+            font-size: 36px;
+            margin: 0;
+        }
+
+        .welcome p {
+            font-size: 18px;
+            margin-top: 10px;
+            color: #e1bee7; /* Slightly lighter text color */
+        }
+
+        .cards {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 25px;
+            padding: 40px 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .card {
+            background-color: rgba(58, 58, 60, 0.9); /* Slightly transparent dark background */
+            border-radius: 15px;
+            padding: 20px;
+            width: 220px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .card img {
+            width: 100%;
+            height: 150px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            object-fit: cover;
+            cursor: pointer;
+        }
+
+        .card h3 {
+            margin: 0;
+            font-size: 20px;
+            color: #ffcccb;
+        }
+
+        .card p {
+            font-size: 16px;
+            color: #d1d1d6;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.5);
+        }
+
+        .quiz {
+            text-align: center;
+            padding: 10px 30px;
+            background-color: #9c27b0; /* Lighter purple */
+            width: 100%;
+            color: #f0f0f0;
+            border-radius: 0 0 25px 25px;
+        }
+
+        footer {
+            background-color: rgb(106, 100, 100);
+            color: #f0f0f0;
+            width: 100%;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 -4px 10px rgba(0, 0, 0, 0.5);
+            position: relative;
+            bottom: 0;
+        }
+
+        footer p {
+            margin: 0;
+            font-size: 16px;
+        }
+
+        footer a {
+            color: #ffcccb;
+            text-decoration: none;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 600px) {
+            .cards {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .card {
+                width: 90%;
+            }
+        }
+
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Quartz Calc</h1>
+        <nav>
+            <a href="login.html">Login</a>
+            <a href="about.html">About Us</a>
+            <a href="signup.html">Sign In</a>
+        </nav>
+    </header>
+
+    <section class="welcome">
+        <h2>Welcome to Quartz Calc</h2>
+        <p>"Mathematics is not about numbers, equations, or algorithms: it is about understanding."</p>
+    </section>
+
+    <section class="cards">
+        <div class="card">
+            <a href="basic.html">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTprcIyf1P_g-g5uTdnmtlC5iktyIA8CqIXQw&s" alt="Normal Calculator">
+                <h3>Normal Calculator</h3>
+                <p>Perform basic arithmetic calculations quickly and efficiently.</p>
+            </a>
+        </div>
+        <div class="card">
+            <a href="scientific.html">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR1Hn0mP-tDCSelsLdJnvO0iEcBdFjDqx1wJQ&s" alt="Scientific Calculator">
+                <h3>Scientific Calculator</h3>
+                <p>Advanced calculations for scientific and engineering needs.</p>
+            </a>
+        </div>
+        <div class="card">
+            <a href="conversion.html">
+                <img src="https://neilpatel.com/wp-content/uploads/2017/08/conversions-1.jpg" alt="Unit Conversion">
+                <h3>Unit Conversion</h3>
+                <p>Easily convert between various units of measurement.</p>
+            </a>
+        </div>
+        <div class="card">
+            <a href="binary.html">
+                <img src="https://files.codingninjas.in/article_images/different-number-systems-and-their-interconversion-0-1645821474.jpg" alt="Number System">
+                <h3>Number System</h3>
+                <p>Convert between different number systems like binary and decimal.</p>
+            </a>
+        </div>
+
+        <section class="quiz">
+            <h2>TIME TO TAKE CHELLANGE</h2>
+            <p>"Mathematics is not about numbers, equations, or algorithms: it is about understanding."</p>
+        </section>
+
+        <div class="card">
+            <a href="login.html">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSGUKc8_zn252_L5gUY7VSeHJgkiv9MmLwqfkb9rumDOsBbqxDU0ehhvJk_FXGntYCsrSY&usqp=CAU" alt="Math Quiz">
+                <h3>Math Quiz</h3>
+                <p>Challenge yourself with fun math quizzes.</p>
+            </a>
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2024 Quartz Calc | YOUR MATH GUIDE | How can I help you?</p>
+    </footer>
+
+</body>
+</html>

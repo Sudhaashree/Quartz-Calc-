@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="signInApp">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign In - Quartz Calc</title>
+    <style>
+          body {
+            font-family: 'Roboto', sans-serif;
+            background-image: url(https://img.freepik.com/premium-photo/light-pink-purple-soft-background_833768-807.jpg);
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center;
+            color: #f0f0f0;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            opacity: 0.9;
+        }
+
+        .sign-in-container {
+            background-color: #3a3a3c; /* Darker background for the container */
+            padding: 40px;
+            border-radius: 12px; /* Slightly rounded corners */
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.6); /* More pronounced shadow */
+            max-width: 400px;
+            width: 100%;
+            margin-top: 50px;
+        }
+
+        .sign-in-container h2 {
+            color: #ffcccb; /* Soft pink color for headings */
+            font-size: 28px;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 16px;
+            margin-bottom: 5px;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 12px; /* Increased padding for a better touch target */
+            font-size: 16px;
+            border: 1px solid #555; /* Darker border */
+            border-radius: 5px;
+            background-color: #4a4a4c; /* Darker input background */
+            color: #e0e0e0; /* Light text */
+        }
+
+        .form-group input.ng-invalid.ng-dirty {
+            border-color: #ff6b6b; /* Red border for invalid input */
+        }
+
+        .form-group .error-msg {
+            color: #ff6b6b; /* Red color for error messages */
+            font-size: 14px;
+        }
+
+        button {
+            width: 100%;
+            padding: 15px;
+            font-size: 16px;
+            color: white;
+            background-color: #ff6b6b; /* Button color */
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #ff4b4b; /* Darker shade on hover */
+        }
+
+        .footer-text {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .footer-text a {
+            color: #ffcccb; /* Link color */
+            text-decoration: none;
+        }
+
+        .footer-text a:hover {
+            text-decoration: underline; /* Underline on hover */
+        }
+    </style>
+</head>
+<body ng-controller="SignInController">
+
+    <div class="sign-in-container">
+        <h2>Log In to Quartz Calc</h2>
+
+        <!-- Sign In Form -->
+        <form name="signInForm" ng-submit="submitForm(signInForm.$valid)" novalidate>
+
+            <!-- Name Field -->
+            <div class="form-group">
+                <label for="name">Name</label>
+                <input type="text" id="name" name="name" ng-model="user.name" required ng-class="{ 'ng-invalid': signInForm.name.$invalid && signInForm.name.$dirty }">
+                <span class="error-msg" ng-show="signInForm.name.$error.required && signInForm.name.$dirty">Name is required</span>
+            </div>
+
+            <!-- Email Field -->
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" ng-model="user.email" required ng-class="{ 'ng-invalid': signInForm.email.$invalid && signInForm.email.$dirty }">
+                <span class="error-msg" ng-show="signInForm.email.$error.required && signInForm.email.$dirty">Email is required</span>
+                <span class="error-msg" ng-show="signInForm.email.$error.email && signInForm.email.$dirty">Invalid email format</span>
+            </div>
+
+            <!-- Password Field -->
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" ng-model="user.password" required ng-minlength="6" ng-class="{ 'ng-invalid': signInForm.password.$invalid && signInForm.password.$dirty }">
+                <span class="error-msg" ng-show="signInForm.password.$error.required && signInForm.password.$dirty">Password is required</span>
+                <span class="error-msg" ng-show="signInForm.password.$error.minlength && signInForm.password.$dirty">Password must be at least 6 characters long</span>
+            </div>
+
+            <!-- Submit Button -->
+            <button type="submit" ng-disabled="signInForm.$invalid">Log In</button>
+
+        </form>
+
+        <!-- Footer Text -->
+        <p class="footer-text">Don't have an account? <a href="signup.html">Sign Up</a></p>
+    </div>
+
+    <!-- AngularJS Library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+
+    <!-- Sign In App Script -->
+    <script>
+        var app = angular.module('signInApp', []);
+
+        app.controller('SignInController', function($scope, $window) {
+            $scope.user = {};
+
+            // Form submit logic
+            $scope.submitForm = function(isValid) {
+                if (isValid) {
+                    alert('Log In successful!.....Enjoy with MATH QUIZ....ALL THE BEST');
+                    // Redirect to the home page after successful sign-in
+                    $window.location.href = 'quiz.html';
+                } else {
+                    alert('Please fill out the form correctly.');
+                }
+            };
+        });
+    </script>
+   
+</body>
+</html>
